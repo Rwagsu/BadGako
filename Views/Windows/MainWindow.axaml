@@ -1,0 +1,47 @@
+<Window x:Class="BadGako.Views.Windows.MainWindow"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:chrome="using:Avalonia.Controls.Chrome"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:BadGako.ViewModels"
+        Title="BadGako"
+        d:DesignHeight="450"
+        d:DesignWidth="800"
+        x:DataType="vm:MainWindowViewModel"
+        ExtendClientAreaToDecorationsHint="True"
+        Icon="/Assets/avalonia-logo.ico"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d">
+
+    <Design.DataContext>
+        <!--
+            This only sets the DataContext for the previewer in an IDE,
+            to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs)
+        -->
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <!--  TitleBar  -->
+        <Border chrome:WindowDecorationProperties.ElementRole="TitleBar" Background="Aquamarine">
+            <StackPanel />
+        </Border>
+
+        <!--
+            TODO: At this point, all NuGet packages are at version 12.0.3.
+            Run the application directly to reproduce the issue: https://github.com/AvaloniaUI/Avalonia/issues/21238
+            Attempting to drag or double-click the title bar (set to the “Aquamarine” color) results in no response. However, after updating all NuGet packages to 12.1.999-cibuild0065238-alpha, the title bar behaves normally.
+            
+            At this point, all NuGet package versions are 12.1.999-cibuild0065238-alpha.
+            When running the app and clicking directly on the title bar, the app unexpectedly maximizes,
+            which is exactly what is described in https://github.com/AvaloniaUI/Avalonia/issues/21318.
+        -->
+
+        <Grid Grid.Row="1" Background="Aqua" />
+    </Grid>
+</Window>

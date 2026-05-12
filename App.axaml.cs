@@ -6,6 +6,7 @@ using System.Linq;
 using Avalonia.Markup.Xaml;
 using BadGako.ViewModels;
 using BadGako.Views;
+using BadGako.Views.Windows;
 
 namespace BadGako;
 
