@@ -2,13 +2,18 @@
         xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:chrome="using:Avalonia.Controls.Chrome"
+        xmlns:classes="clr-namespace:BadGako.Models.Classes.ViewClasses"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:lang="using:BadGako.Strings"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="using:BadGako.ViewModels"
+        xmlns:ui="using:FluentAvalonia.UI.Controls"
+        xmlns:viewModels="clr-namespace:BadGako.ViewModels.Windows"
         Title="BadGako"
-        d:DesignHeight="450"
-        d:DesignWidth="800"
-        x:DataType="vm:MainWindowViewModel"
+        Width="900"
+        Height="600"
+        d:DesignHeight="600"
+        d:DesignWidth="900"
+        x:DataType="viewModels:MainWindowViewModel"
         ExtendClientAreaToDecorationsHint="True"
         Icon="/Assets/avalonia-logo.ico"
         WindowStartupLocation="CenterScreen"
@@ -19,7 +24,7 @@
             This only sets the DataContext for the previewer in an IDE,
             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs)
         -->
-        <vm:MainWindowViewModel />
+        <viewModels:MainWindowViewModel />
     </Design.DataContext>
 
     <Grid>
@@ -28,20 +33,39 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <!--  TitleBar  -->
-        <Border chrome:WindowDecorationProperties.ElementRole="TitleBar" Background="Aquamarine">
-            <StackPanel />
+        <Border chrome:WindowDecorationProperties.ElementRole="TitleBar">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="12">
+                <!--  TODO: AppIcon  -->
+
+                <TextBlock VerticalAlignment="Center"
+                           FontWeight="Bold"
+                           Text="{x:Static lang:BaseResources.ApplicationName}" />
+            </StackPanel>
         </Border>
 
-        <!--
-            TODO: At this point, all NuGet packages are at version 12.0.3.
-            Run the application directly to reproduce the issue: https://github.com/AvaloniaUI/Avalonia/issues/21238
-            Attempting to drag or double-click the title bar (set to the “Aquamarine” color) results in no response. However, after updating all NuGet packages to 12.1.999-cibuild0065238-alpha, the title bar behaves normally.
-            
-            At this point, all NuGet package versions are 12.1.999-cibuild0065238-alpha.
-            When running the app and clicking directly on the title bar, the app unexpectedly maximizes,
-            which is exactly what is described in https://github.com/AvaloniaUI/Avalonia/issues/21318.
-        -->
+        <!--  Main NavigationView  -->
+        <ui:FANavigationView x:Name="MainNavBar"
+                             Grid.Row="1"
+                             MenuItemsSource="{Binding MainNavBarItems}">
+            <!--  MenuItem Template  -->
+            <ui:FANavigationView.MenuItemTemplate>
+                <DataTemplate x:DataType="classes:MainNavViewItem">
+                    <ui:FANavigationViewItem Content="{Binding Title}" IconSource="{Binding Icon}" />
+                </DataTemplate>
+            </ui:FANavigationView.MenuItemTemplate>
 
-        <Grid Grid.Row="1" Background="Aqua" />
+            <!--  Behaviors  -->
+            <Interaction.Behaviors>
+                <EventTriggerBehavior EventName="SelectionChanged">
+                    <InvokeCommandAction Command="{Binding NavigateToPageCommand}" />
+                </EventTriggerBehavior>
+            </Interaction.Behaviors>
+
+            <!--  Content  -->
+            <ui:FAFrame x:Name="MainFrame" />
+        </ui:FANavigationView>
     </Grid>
 </Window>

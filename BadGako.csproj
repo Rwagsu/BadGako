@@ -5,12 +5,13 @@
         <Nullable>enable</Nullable>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+        <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)Generated</CompilerGeneratedFilesOutputPath>
     </PropertyGroup>
 
     <ItemGroup>
-        <Folder Include="Models\"/>
         <AvaloniaResource Include="Assets\**"/>
-        <Folder Include="Views\Pages\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -23,7 +24,10 @@
             <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
         </PackageReference>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.1"/>
+        <PackageReference Include="FluentAvaloniaUI" Version="3.0.0-preview2" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="11.0.0-preview.4.26230.115" />
         <PackageReference Include="MinecraftLaunch" Version="4.0.6" />
+        <PackageReference Include="Xaml.Behaviors.Avalonia" Version="12.0.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -31,5 +35,26 @@
         <DependentUpon>MainWindow.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
+      <Compile Update="Strings\BaseResources.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>BaseResources.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Strings\MainNavBarResources.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>MainNavBarResources.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="Strings\BaseResources.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>BaseResources.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Strings\MainNavBarResources.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>MainNavBarResources.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
     </ItemGroup>
 </Project>
